@@ -1,2 +1,4 @@
 # HTBEternal
-Hack the box named Eternal
+Intentionally vulnerable box for HackTheBox users to break in.
+
+
