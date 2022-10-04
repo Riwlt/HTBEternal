@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# enable xdebug, if not enabled already
+php -m | grep -q ^xdebug || docker-php-ext-enable xdebug
+
+PHP=`which php`
+REMOTE_HOST=`/sbin/ip route|awk '/default/ { print $3 }'`
+export XDEBUG_CONFIG="remote_enable=1 remote_mode=req remote_port=9000 remote_host=${REMOTE_HOST} remote_connect_back=0"
+export PHP_IDE_CONFIG="serverName=${XDEBUG_SERVER_NAME}"
+${PHP} $@
