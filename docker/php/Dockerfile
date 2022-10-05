@@ -1,4 +1,4 @@
-FROM php:7.4.0-fpm-alpine AS production
+FROM php:8.0.5-fpm-alpine AS production
 
 ENV TIMEZONE="Europe/Berlin"
 ENV COMPOSER_MEMORY_LIMIT=-1
@@ -29,7 +29,7 @@ RUN apk add --no-cache \
     git
 
 # Type docker-php-ext-install to see available extensions
-RUN docker-php-ext-install -j"$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1)" pdo pdo_mysql opcache zip bcmath sodium sockets
+RUN docker-php-ext-install -j"$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1)" pdo_mysql opcache zip bcmath sodium sockets
 
 RUN apk del ${BUILD_DEPS}
 
@@ -45,6 +45,8 @@ RUN mkdir -p /app/var/log /app/var/cache \
     && chmod 777 /app/var/log /app/var/cache
 
 WORKDIR /app
+
+RUN composer update
 
 # preload composer packages for dev and production
 RUN composer install --no-scripts --no-interaction --no-progress
