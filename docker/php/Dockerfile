@@ -8,9 +8,6 @@ ENV GRPC_VERBOSITY ERROR
 RUN ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && echo ${TIMEZONE} > /etc/timezone \
     && printf '[PHP]\ndate.timezone = "%s"\n', ${TIMEZONE} > /usr/local/etc/php/conf.d/tzone.ini
 
-# create directory structure for php extentions to be able to move downloaded extensions to /usr/src/php/ext/
-# this line is required and should not be removed (unless you don't need to put your own downloaded stuff into the extensions folder before running docker-php-ext-install)
-# please also do not remove the --help flag because otherwise this command exits with code != 0 and break the image build
 RUN docker-php-ext-install --help
 
 ENV BUILD_DEPS \
